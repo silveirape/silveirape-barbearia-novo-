@@ -1,129 +1,466 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090909">
-<title>Silveirape Barbearia | Experiência Premium</title>
+<title>Silveirape Barbearia</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-background:#090909;color:#f5f0e7;
-font-family:Arial,sans-serif;
-}
-header{
-padding:25px 7%;
-display:flex;justify-content:space-between;
-align-items:center;border-bottom:1px solid #302414;
-}
-.logo{color:#d5ad62;font-size:21px;font-weight:bold;letter-spacing:2px}
-nav a{color:#eee;text-decoration:none;margin-left:20px;font-size:13px}
-.hero{
-min-height:78vh;display:flex;flex-direction:column;
-justify-content:center;align-items:center;text-align:center;
-padding:40px 20px;
-background:radial-gradient(ellipse at center,#302313 0%,#100e0b 48%,#090909 80%);
-}
-.tag{color:#d5ad62;letter-spacing:5px;font-size:11px}
-h1{font-size:clamp(38px,8vw,75px);margin:25px 0 15px;letter-spacing:3px}
-h1 span{color:#d5ad62}
-.hero p{color:#c2b9aa;line-height:1.8;max-width:500px}
-.btn{
-display:inline-block;margin-top:32px;
-padding:17px 30px;background:#c49a50;
-color:#100d08;text-decoration:none;
-font-weight:bold;letter-spacing:1px;
-transition:.3s;
-}
-.btn:hover{background:#f0ce85}
-section{padding:75px 8%;text-align:center}
-h2{font-size:30px;margin-bottom:18px}
-h2 span{color:#d5ad62}
-.sub{color:#aaa;line-height:1.8}
-.cards{
-display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:18px;margin-top:35px;
-}
-.card{
-border:1px solid #49391f;padding:35px 20px;
-background:linear-gradient(145deg,#19150f,#0c0c0c);
-}
-.card h3{color:#d5ad62;margin-bottom:12px}
-.card p{color:#aaa;font-size:14px;line-height:1.7} 
-.info{background:#12100c}
-footer{
-padding:35px 15px;text-align:center;
-border-top:1px solid #49391f;color:#999;
-font-size:13px;line-height:2;
-}
-footer strong{color:#d5ad62}
-@media(max-width:600px){
-header{flex-direction:column;gap:15px}
-nav a{margin:0 7px;font-size:12px}
-}
+:root{--gold:#c9a45c;--bg:#090909;--card:#171717}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:28px;border-bottom:1px solid #493b25}
+.logo{font:34px Georgia;color:var(--gold);letter-spacing:4px}
+header p{color:#aaa;letter-spacing:3px;font-size:11px}
+.hero{text-align:center;padding:65px 15px;background:linear-gradient(#21190e,#090909)}
+.hero h1{font:38px Georgia;color:var(--gold)}
+.hero p{color:#ccc;line-height:1.7}
+.container{max-width:650px;width:92%;margin:30px auto}
+.card{background:var(--card);padding:24px;border:1px solid #493b25;border-radius:12px;margin-bottom:22px}
+h2{text-align:center;color:var(--gold);font-family:Georgia}
+label{display:block;margin:15px 0 7px;color:#ddd}
+input,select{width:100%;padding:14px;background:#090909;border:1px solid #555;border-radius:6px;color:white;font-size:15px}
+button{padding:14px;background:var(--gold);color:#111;border:0;border-radius:6px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.4}
+.full{width:100%;margin-top:18px}
+.secondary{background:#444;color:white}
+.danger{background:#792e2e;color:white}
+#horarios{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.horario{background:#292929;color:white;border:1px solid #555;padding:12px 4px;border-radius:5px}
+.horario.selected{background:var(--gold);color:#111}
+.horario:disabled{opacity:.3;text-decoration:line-through}
+.msg{padding:13px;margin-top:14px;border-radius:5px}
+.success{background:#173b24;color:#a5e9b7}
+.error{background:#4b2020;color:#ffb2b2}
+.item{padding:14px 0;border-bottom:1px solid #444;line-height:1.7}
+.item strong{color:var(--gold)}
+footer{text-align:center;color:#888;padding:35px;font-size:12px}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 
 <header>
 <div class="logo">SILVEIRAPE</div>
-<nav>
-<a href="#inicio">Início</a>
-<a href="#servicos">Serviços</a>
-<a href="#contato">Contato</a>
-</nav>
+<p>BARBEARIA • ESTILO • ELEGÂNCIA</p>
 </header>
 
-<main>
-<div class="hero" id="inicio">
-<div class="tag">EXCLUSIVIDADE • ESTILO • PRECISÃO</div>
-<h1>SILVEIRAPE<br><span>BARBEARIA</span></h1>
-<p>
-Mais que um corte. Uma experiência de cuidado,
-elegância e personalidade.
-</p>
-<a class="btn" href="https://wa.me/5551995277880?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio%20na%20Silveirape%20Barbearia.">
-AGENDAR MEU HORÁRIO
-</a>
-</div>
-
-<section id="servicos">
-<h2>NOSSOS <span>SERVIÇOS</span></h2>
-<p class="sub">Cuidado e atenção em cada detalhe.</p>
-<div class="cards">
-<div class="card">
-<h3>CORTE</h3>
-<p>Estilo e precisão para valorizar sua identidade.</p>
-</div>
-<div class="card">
-<h3>BARBA</h3>
-<p>Cuidado, acabamento e personalidade.</p>
-</div>
-<div class="card">
-<h3>EXPERIÊNCIA</h3>
-<p>Um atendimento reservado e pensado em você.</p>
-</div>
-</div>
+<section class="hero">
+<h1>Seu estilo, nossa assinatura.</h1>
+<p>Uma experiência exclusiva de cuidado e sofisticação.<br>
+Agende seu horário.</p>
 </section>
 
-<section class="info" id="contato">
-<h2>SUA PRÓXIMA <span>EXPERIÊNCIA</span></h2>
-<p class="sub">
-Escolha seu horário e venha conhecer a Silveirape Barbearia.
+<main class="container">
+
+<section class="card">
+<h2>Nossos serviços</h2>
+<p style="text-align:center;line-height:2;color:#ccc">
+Corte masculino<br>
+Barba<br>
+Corte + Barba<br>
+Acabamento
 </p>
-<a class="btn" href="https://wa.me/5551995277880?text=Ol%C3%A1!%20Quero%20agendar%20na%20Silveirape%20Barbearia.">
-FALE CONOSCO
-</a>
 </section>
+
+<section class="card">
+<h2>Agende seu horário</h2>
+
+<form id="formAgendamento">
+<label>Nome completo</label>
+<input id="nome" required placeholder="Seu nome">
+
+<label>Telefone / WhatsApp</label>
+<input id="telefone" required type="tel" placeholder="(00) 00000-0000">
+
+<label>Serviço</label>
+<select id="servico" required>
+<option value="">Escolha o serviço</option>
+<option>Corte masculino</option>
+<option>Barba</option>
+<option>Corte + Barba</option>
+<option>Acabamento</option>
+</select>
+
+<label>Data</label>
+<input id="data" type="date" required>
+
+<label>Horários disponíveis</label>
+<div id="horarios">Escolha uma data.</div>
+
+<button class="full" id="btnAgendar" disabled>
+CONFIRMAR AGENDAMENTO
+</button>
+</form>
+<div id="mensagem"></div>
+</section>
+
+<section class="card">
+<h2>Área administrativa</h2>
+
+<div id="loginAdmin">
+<label>E-mail</label>
+<input id="emailAdmin" type="email" placeholder="E-mail administrativo">
+
+<label>Senha</label>
+<input id="senhaAdmin" type="password" placeholder="Senha">
+
+<button class="full" id="btnLogin">ENTRAR</button>
+</div>
+
+<div id="painelAdmin" class="hidden">
+<p style="text-align:center;color:var(--gold)">Painel do administrador</p>
+
+<button class="full secondary" id="btnAtualizar">ATUALIZAR AGENDAMENTOS</button>
+
+<h2>Bloquear horário</h2>
+<label>Data</label>
+<input id="dataBloqueio" type="date">
+
+<label>Horário</label>
+<select id="horaBloqueio"></select>
+
+<button class="full" id="btnBloquear">BLOQUEAR HORÁRIO</button>
+
+<h2>Agendamentos</h2>
+<div id="listaAgendamentos"></div>
+
+<button class="full danger" id="btnSair">SAIR</button>
+</div>
+<div id="mensagemAdmin"></div>
+</section>
+
 </main>
 
 <footer>
-<strong>SILVEIRAPE BARBEARIA</strong><br>
-Atendimento exclusivo e personalizado.<br>
-WhatsApp: (51) 99527-7880<br>
-© 2026 Silveirape Barbearia
+SILVEIRAPE BARBEARIA<br>
+Estilo e elegância em cada detalhe.
 </footer>
 
+<script>
+const SUPABASE_URL = 'https://nctirwsxxzyfnrhdbmoc.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_0wPBVsSI7HzAaKAtNtYHPw_l1LCkjLW';
+
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const $ = id => document.getElementById(id);
+
+let horarioSelecionado = '';
+let sessaoAtual = null;
+
+function mensagem(id,texto,tipo){
+  $(id).innerHTML = texto;
+  $(id).className = 'msg ' + tipo;
+}
+
+function dataLocal(d){
+  const ano=d.getFullYear();
+  const mes=String(d.getMonth()+1).padStart(2,'0');
+  const dia=String(d.getDate()).padStart(2,'0');
+  return `${ano}-${mes}-${dia}`;
+}
+
+function criarHorarios(){
+  const horas=[];
+  for(let h=9;h<=20;h++){
+    if(h<11) horas.push(`${String(h).padStart(2,'0')}:00`);
+    else if(h>=13) horas.push(`${String(h).padStart(2,'0')}:00`);
+  }
+  horas.push('21:00');
+  return horas;
+}
+
+const horarios = criarHorarios();
+
+function horarioPermitido(data,hora){
+  const dia = new Date(data+'T12:00:00').getDay();
+  const h = Number(hora.substring(0,2));
+  const m = Number(hora.substring(3,5));
+
+  if(m!==0) return false;
+  if(dia>=2 && dia<=5)
+    return (h>=9 && h<11) || (h>=13 && h<=21);
+  if(dia===6)
+    return h>=13 && h<17;
+  return false;
+}
+
+function configurarDatas(){
+  const hoje=dataLocal(new Date());
+  $('data').min=hoje;
+  $('dataBloqueio').min=hoje;
+}
+
+async function carregarHorarios(){
+  const data=$('data').value;
+  horarioSelecionado='';
+  $('btnAgendar').disabled=true;
+
+  if(!data){
+    $('horarios').textContent='Escolha uma data.';
+    return;
+  }
+
+  const dia=new Date(data+'T12:00:00').getDay();
+
+  if(dia===0 || dia===1){
+    $('horarios').textContent='Não atendemos neste dia.';
+    return;
+  }
+
+  const {data:ocupados,error}=await db
+    .from('Agendamentos')
+    .select('horario')
+    .eq('data',data)
+    .neq('status','cancelado');
+
+  if(error){
+    $('horarios').textContent='Erro ao consultar horários.';
+    console.error(error);
+    return;
+  }
+
+  const usados=(ocupados||[]).map(x=>String(x.horario).substring(0,5));
+
+  $('horarios').innerHTML='';
+
+  horarios.forEach(h=>{
+    if(!horarioPermitido(data,h))return;
+
+    const ocupado=usados.includes(h);
+    const botao=document.createElement('button');
+
+    botao.type='button';
+    botao.className='horario';
+    botao.textContent=ocupado?h+' • Ocupado':h;
+    botao.disabled=ocupado;
+
+    botao.onclick=()=>{
+      document.querySelectorAll('.horario').forEach(b=>b.classList.remove('selected'));
+      botao.classList.add('selected');
+      horarioSelecionado=h;
+      $('btnAgendar').disabled=false;
+    };
+
+    $('horarios').appendChild(botao);
+  });
+
+  if(!$('horarios').children.length){
+    $('horarios').textContent='Sem horários disponíveis.';
+  }
+}
+
+$('data').addEventListener('change',carregarHorarios);
+
+$('formAgendamento').addEventListener('submit',async e=>{
+  e.preventDefault();
+
+  if(!horarioSelecionado){
+    mensagem('mensagem','Selecione um horário.','error');
+    return;
+  }
+
+  const data=$('data').value;
+  const nome=$('nome').value.trim();
+  const telefone=$('telefone').value.trim();
+  const servico=$('servico').value;
+
+  if(!horarioPermitido(data,horarioSelecionado)){
+    mensagem('mensagem','Horário inválido.','error');
+    return;
+  }
+
+  if(new Date(data+'T'+horarioSelecionado+':00')<=new Date()){
+    mensagem('mensagem','Escolha um horário futuro.','error');
+    return;
+  }
+
+  $('btnAgendar').disabled=true;
+
+  const {error}=await db.from('Agendamentos').insert([{
+    nome,
+    telefone,
+    servico,
+    data,
+    horario:horarioSelecionado,
+    status:'pendente'
+  }]);
+
+  if(error){
+    mensagem('mensagem','Não foi possível agendar. Verifique se o horário continua disponível.','error');
+    console.error(error);
+    await carregarHorarios();
+    return;
+  }
+
+  mensagem('mensagem','Agendamento realizado com sucesso! Esperamos você.','success');
+  $('formAgendamento').reset();
+  $('horarios').textContent='Escolha uma data.';
+  horarioSelecionado='';
+});
+
+async function atualizarSessao(){
+  const {data}=await db.auth.getSession();
+  sessaoAtual=data.session;
+  mostrarPainel();
+}
+
+function mostrarPainel(){
+  $('loginAdmin').classList.toggle('hidden',!!sessaoAtual);
+  $('painelAdmin').classList.toggle('hidden',!sessaoAtual);
+
+  if(sessaoAtual){
+    carregarAgendamentos();
+  }
+}
+
+$('btnLogin').onclick=async()=>{
+  const email=$('emailAdmin').value.trim();
+  const password=$('senhaAdmin').value;
+
+  const {data,error}=await db.auth.signInWithPassword({
+    email,password
+  });
+
+  if(error){
+    mensagem('mensagemAdmin','E-mail ou senha incorretos.','error');
+    return;
+  }
+
+  sessaoAtual=data.session;
+  mensagem('mensagemAdmin','Login realizado!','success');
+  mostrarPainel();
+};
+
+async function carregarAgendamentos(){
+  if(!sessaoAtual)return;
+
+  const {data,error}=await db
+    .from('Agendamentos')
+    .select('*')
+    .order('data',{ascending:true})
+    .order('horario',{ascending:true});
+
+  if(error){
+    $('listaAgendamentos').textContent='Erro ao carregar agendamentos.';
+    console.error(error);
+    return;
+  }
+
+  $('listaAgendamentos').innerHTML='';
+
+  if(!data.length){
+    $('listaAgendamentos').textContent='Nenhum agendamento encontrado.';
+    return;
+  }
+
+  data.forEach(item=>{
+    const div=document.createElement('div');
+    div.className='item';
+
+    const titulo=document.createElement('strong');
+    titulo.textContent=item.nome;
+
+    const detalhes=document.createElement('div');
+    detalhes.textContent=
+      `${item.servico} | ${item.data} | ${String(item.horario).substring(0,5)}`;
+
+    const telefone=document.createElement('div');
+    telefone.textContent='Telefone: '+item.telefone;
+
+    const status=document.createElement('div');
+    status.textContent='Status: '+item.status;
+
+    div.append(titulo,detalhes,telefone,status);
+
+    if(item.status!=='cancelado'){
+      const btn=document.createElement('button');
+      btn.className='full danger';
+      btn.textContent='CANCELAR / LIBERAR HORÁRIO';
+
+      btn.onclick=()=>cancelarAgendamento(item.id);
+      div.appendChild(btn);
+    }
+
+    $('listaAgendamentos').appendChild(div);
+  });
+}
+
+async function cancelarAgendamento(id){
+  if(!confirm('Deseja cancelar este agendamento?'))return;
+
+  const {error}=await db
+    .from('Agendamentos')
+    .update({status:'cancelado'})
+    .eq('id',id);
+
+  if(error){
+    mensagem('mensagemAdmin','Erro ao cancelar agendamento.','error');
+    return;
+  }
+
+  mensagem('mensagemAdmin','Horário liberado.','success');
+  carregarAgendamentos();
+}
+
+$('btnAtualizar').onclick=carregarAgendamentos;
+
+$('btnSair').onclick=async()=>{
+  await db.auth.signOut();
+  sessaoAtual=null;
+  mostrarPainel();
+};
+
+horarios.forEach(h=>{
+  const op=document.createElement('option');
+  op.value=h;
+  op.textContent=h;
+  $('horaBloqueio').appendChild(op);
+});
+
+$('btnBloquear').onclick=async()=>{
+  const data=$('dataBloqueio').value;
+  const horario=$('horaBloqueio').value;
+
+  if(!data || !horarioPermitido(data,horario)){
+    mensagem('mensagemAdmin','Escolha uma data e horário válido.','error');
+    return;
+  }
+
+  if(new Date(data+'T'+horario+':00')<=new Date()){
+    mensagem('mensagemAdmin','Escolha um horário futuro.','error');
+    return;
+  }
+
+  const {error}=await db.from('Agendamentos').insert([{
+    nome:'Bloqueio administrativo',
+    telefone:'-',
+    servico:'Horário bloqueado',
+    data,
+    horario,
+    status:'bloqueado'
+  }]);
+
+  if(error){
+    mensagem('mensagemAdmin','Não foi possível bloquear. Verifique se já está ocupado.','error');
+    return;
+  }
+
+  mensagem('mensagemAdmin','Horário bloqueado com sucesso!','success');
+  carregarAgendamentos();
+  if($('data').value===data)carregarHorarios();
+};
+
+configurarDatas();
+atualizarSessao();
+
+db.auth.onAuthStateChange((_event,session)=>{
+  sessaoAtual=session;
+  mostrarPainel();
+});
+</script>
 </body>
 </html>
